@@ -56,26 +56,53 @@ program
 program
   .command('restore')
   .description('Restore an existing mnemonic')
-  .action(async () => {
+  .option('-m, --mnemonic <mnemonic>')
+  .option('-p, --passphrase <passphrase>', '')
+  .action(async (cmd?: { mnemonic?: string, passphrase: string }) => {
     let passphrase = ''
-    let words = []
+    let mnemonic
 
-    const { wordsCount } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'wordsCount',
-        message: 'Mnemonic size:',
-        choices: [12, 24],
-        default: 12
-      },
-    ])
+    if (!cmd?.mnemonic) {
+      let words = []
+      const { wordsCount } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'wordsCount',
+          message: 'Mnemonic size:',
+          choices: [12, 24],
+          default: 12
+        },
+      ])
 
-    for(let i = 0; i < wordsCount; i++) {
-      const { word } = await askWord(i)
-      words.push(word)
+      for(let i = 0; i < wordsCount; i++) {
+        const { word } = await askWord(i)
+        words.push(word)
+      }
+
+      mnemonic = words.join(' ')
+
+      const { usePassphrase } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'usePassphrase',
+          message: 'Do you want to use a passphrase?',
+          default: false
+        }
+      ])
+
+      if (usePassphrase) {
+        ({ passphrase } = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'passphrase',
+            message: 'Passphrase:'
+          }
+        ]))
+      }
+    } else {
+      mnemonic = cmd.mnemonic
+      passphrase = cmd.passphrase
     }
-
-    const mnemonic = words.join(' ')
 
     const { isMnemonicValid } = validateWords({ mnemonic })
 
@@ -83,25 +110,6 @@ program
       console.log(chalk.bold(chalk.red('[ERROR] INVALID MNEMONIC')))
       console.log(chalk.yellow('>'), 'mnemonic:', chalk.red(mnemonic))
       return
-    }
-
-    const { usePassphrase } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'usePassphrase',
-        message: 'Do you want to use a passphrase?',
-        default: false
-      }
-    ])
-
-    if (usePassphrase) {
-      ({ passphrase } = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'passphrase',
-          message: 'Passphrase:'
-        }
-      ]))
     }
 
     outputKeys({ mnemonic, passphrase })
