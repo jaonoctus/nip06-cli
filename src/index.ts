@@ -20,8 +20,8 @@ inquirer.registerPrompt('autocomplete', inquirerPrompt)
 const program = new Command()
 
 program
-  .name('nip06')
-  .description('CLI to Nostr NIP06')
+  .name('nip06-cli')
+  .description('NodeJS CLI to generate or restore Nostr NIP-06')
   .version(version, '-v, --version')
 
 program
@@ -55,7 +55,7 @@ program
 
 program
   .command('restore')
-  .description('Restore a existing mnemonic')
+  .description('Restore an existing mnemonic')
   .action(async () => {
     let passphrase = ''
     let words = []

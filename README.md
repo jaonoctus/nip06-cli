@@ -11,9 +11,9 @@ npm i -g nip06-cli
 ## Usage
 
 ```
-Usage: nip06 [options] [command]
+Usage: nip06-cli [options] [command]
 
-CLI to Nostr NIP06
+NodeJS CLI to generate or restore Nostr NIP-06
 
 Options:
   -v, --version   output the version number
@@ -21,6 +21,6 @@ Options:
 
 Commands:
   random          Generate a random mnemonic
-  restore         Restore a existing mnemonic
+  restore         Restore an existing mnemonic
   help [command]  display help for command
 ```
