@@ -135,9 +135,9 @@ function outputKeys({ mnemonic, passphrase }: { mnemonic: string, passphrase?: s
   const { bech32PrivateKey } = getBech32PrivateKey({ privateKey })
   const { bech32PublicKey } = getBech32PublicKey({ publicKey })
 
-  console.log(chalk.yellow('>'), 'mnemonic:', chalk.blue(mnemonic))
-  console.log(chalk.yellow('>'), 'hex private key:', chalk.blue(privateKey))
-  console.log(chalk.yellow('>'), 'hex public key:', chalk.blue(publicKey))
-  console.log(chalk.yellow('>'), 'bech32 private key:', chalk.blue(bech32PrivateKey))
-  console.log(chalk.yellow('>'), 'bech32 public key:', chalk.blue(bech32PublicKey))
+  console.log(chalk.gray('mnemonic:'), chalk.bgCyan(mnemonic))
+  console.log(chalk.gray('hex private key:'), chalk.cyan(privateKey))
+  console.log(chalk.gray('hex public key:'), chalk.cyan(publicKey))
+  console.log(chalk.gray('bech32 private key:'), chalk.cyan(bech32PrivateKey))
+  console.log(chalk.gray('bech32 public key:'), chalk.cyan(bech32PublicKey))
 }
