@@ -45,7 +45,8 @@
     "commander": "10.0.0",
     "fuzzy": "0.1.3",
     "inquirer": "9.1.4",
-    "inquirer-autocomplete-prompt": "3.0.0"
+    "inquirer-autocomplete-prompt": "3.0.0",
+    "nip06": "1.0.2"
   },
   "engines": {
     "node": ">=16.4.0"
