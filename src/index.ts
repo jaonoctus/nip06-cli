@@ -124,7 +124,7 @@ async function askWord(index: number) {
       name: 'word',
       message: `Word [${index + 1}]:`,
       source: searchWord,
-      default: 'bacon'
+      default: ''
     },
   ])
 
@@ -133,6 +133,12 @@ async function askWord(index: number) {
 
 function searchWord(_answersSoFar: any, input = '') {
   return new Promise((resolve) => {
+    const wordsStartsWithInput = wordlist.filter((word) => word.startsWith(input))
+
+    if (Array.isArray(wordsStartsWithInput) && wordsStartsWithInput.length > 0) {
+      resolve(wordsStartsWithInput)
+    }
+
     resolve(fuzzy.filter(input, wordlist).map((el) => el.original))
   })
 }
