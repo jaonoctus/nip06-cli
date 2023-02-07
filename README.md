@@ -11,7 +11,7 @@ npm i -g nip06-cli
 ## Usage
 
 ```
-Usage: nip06-cli [options] [command]
+$ nip06-cli [options] [command]
 
 NodeJS CLI to generate or restore Nostr NIP-06
 
@@ -23,4 +23,10 @@ Commands:
   random          Generate a random mnemonic
   restore         Restore an existing mnemonic
   help [command]  display help for command
+```
+
+## Docker
+
+```
+docker run --rm -it jaonoctus/nip06-cli [options] [command]
 ```
