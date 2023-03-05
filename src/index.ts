@@ -28,27 +28,7 @@ program
   .command('random')
   .description('Generate a random mnemonic')
   .action(async () => {
-    let passphrase = ''
-
-    const { usePassphrase } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'usePassphrase',
-        message: 'Do you want to use a passphrase?',
-        default: false
-      }
-    ])
-
-    if (usePassphrase) {
-      ({ passphrase } = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'passphrase',
-          message: 'Passphrase:'
-        }
-      ]))
-    }
-
+    const { passphrase } = await askPassphrase()
     const { mnemonic } = generateSeedWords()
     outputKeys({ mnemonic, passphrase })
   })
@@ -79,26 +59,9 @@ program
         words.push(word)
       }
 
-      mnemonic = words.join(' ')
+      mnemonic = words.join(' ');
 
-      const { usePassphrase } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'usePassphrase',
-          message: 'Do you want to use a passphrase?',
-          default: false
-        }
-      ])
-
-      if (usePassphrase) {
-        ({ passphrase } = await inquirer.prompt([
-          {
-            type: 'input',
-            name: 'passphrase',
-            message: 'Passphrase:'
-          }
-        ]))
-      }
+      ({ passphrase } = await askPassphrase())
     } else {
       mnemonic = cmd.mnemonic
       passphrase = cmd.passphrase
@@ -154,4 +117,31 @@ function outputKeys({ mnemonic, passphrase }: { mnemonic: string, passphrase?: s
   console.log(chalk.gray('hex public key:'), chalk.cyan(publicKey))
   console.log(chalk.gray('bech32 private key:'), chalk.cyan(bech32PrivateKey))
   console.log(chalk.gray('bech32 public key:'), chalk.cyan(bech32PublicKey))
+}
+
+async function askPassphrase() {
+  let passphrase = ''
+
+  const { usePassphrase } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'usePassphrase',
+      message: 'Do you want to use a passphrase?',
+      default: false
+    }
+  ])
+
+  if (usePassphrase) {
+    ({ passphrase } = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'passphrase',
+        message: 'Passphrase:'
+      }
+    ]))
+  }
+
+  return {
+    passphrase
+  }
 }
