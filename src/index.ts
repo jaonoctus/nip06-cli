@@ -121,6 +121,7 @@ function outputKeys({ mnemonic, passphrase }: { mnemonic: string, passphrase?: s
 
 async function askPassphrase() {
   let passphrase = ''
+  let passphraseConfirmation = ''
 
   const { usePassphrase } = await inquirer.prompt([
     {
@@ -132,13 +133,23 @@ async function askPassphrase() {
   ])
 
   if (usePassphrase) {
-    ({ passphrase } = await inquirer.prompt([
+    ({ passphrase, passphraseConfirmation } = await inquirer.prompt([
       {
         type: 'password',
         name: 'passphrase',
         message: 'Passphrase:'
+      },
+      {
+        type: 'password',
+        name: 'passphraseConfirmation',
+        message: 'Type the passphrase again:'
       }
     ]))
+
+    if (passphrase !== passphraseConfirmation) {
+      console.log(chalk.bold(chalk.red('[ERROR] PASSPHRASES DOES NOT MATCH.')))
+      return process.exit(1)
+    }
   }
 
   return {
