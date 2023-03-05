@@ -134,7 +134,7 @@ async function askPassphrase() {
   if (usePassphrase) {
     ({ passphrase } = await inquirer.prompt([
       {
-        type: 'input',
+        type: 'password',
         name: 'passphrase',
         message: 'Passphrase:'
       }
